@@ -9,9 +9,11 @@ class SBookBase(BaseModel):
     pages: int = Field(gt=10)
     is_read: bool = False
 
+
 # 2. Класс для создания (ничего не добавляет, просто копирует базу. Валидация: pages должно быть больше 10)
 class SBookAdd(SBookBase):
     pass
+
 
 # 3. Класс для чтения (добавляет id)
 class SBook(SBookBase):

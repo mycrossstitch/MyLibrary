@@ -44,7 +44,9 @@ class BookRepository:
         return book
 
     @staticmethod
-    async def update_one(book_id: int, book_data: SBookAdd, session: AsyncSession) -> BooksModel:
+    async def update_one(
+        book_id: int, book_data: SBookAdd, session: AsyncSession
+    ) -> BooksModel:
         # 1. Превращаем данные из Pydantic в словарь
         book_dict = book_data.model_dump()
 
@@ -73,13 +75,13 @@ class BookRepository:
 
     @classmethod
     async def search_books(
-            cls,
-            session: AsyncSession,
-            author: str | None = None,
-            title: str | None = None,
-            year: int | None = None
+        cls,
+        session: AsyncSession,
+        author: str | None = None,
+        title: str | None = None,
+        year: int | None = None,
     ) -> List[BooksModel]:
-        """ Поиск книг по параметрам  """
+        """Поиск книг по параметрам"""
         query = select(BooksModel)
         # Собираем условия
         conditions = []
@@ -96,7 +98,6 @@ class BookRepository:
         result = await session.execute(query)
         return result.scalars().all()
 
-
     @classmethod
     async def find_by_is_read(cls, is_read: bool, session: AsyncSession):
         # 1. Готовим запрос
@@ -106,4 +107,3 @@ class BookRepository:
         # 3. Возвращаем список объектов
         books_models = result.scalars().all()
         return books_models
-

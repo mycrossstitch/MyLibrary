@@ -13,6 +13,7 @@ engine = create_async_engine(DATABASE_URL)
 # 3. Фабрика сессий (Session Factory)
 new_session = async_sessionmaker(engine, expire_on_commit=False)
 
+
 # 4. Базовый класс моделей
 class Model(MappedAsDataclass, DeclarativeBase):
     pass
@@ -22,5 +23,6 @@ class Model(MappedAsDataclass, DeclarativeBase):
 async def get_db():
     async with new_session() as session:
         yield session
+
 
 SessionDep = Annotated[AsyncSession, Depends(get_db)]
