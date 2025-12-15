@@ -43,9 +43,9 @@ class BookRepository:
         book = result.scalars().one_or_none()
         return book
 
-    @staticmethod
+    @classmethod
     async def update_one(
-        book_id: int, book_data: SBookAdd, session: AsyncSession
+        cls, book_id: int, book_data: SBookAdd, session: AsyncSession
     ) -> BooksModel:
         # 1. Превращаем данные из Pydantic в словарь
         book_dict = book_data.model_dump()
@@ -67,8 +67,8 @@ class BookRepository:
         await session.refresh(updated_book)
         return updated_book
 
-    @staticmethod
-    async def delete_one(book_id: int, session: AsyncSession):
+    @classmethod
+    async def delete_one(cls, book_id: int, session: AsyncSession):
         stmt = delete(BooksModel).where(BooksModel.id == book_id)
         await session.execute(stmt)
         await session.commit()
